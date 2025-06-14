@@ -1,101 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import RangeSelector from './components/RangeSelector';
-import NumberDisplay from './components/NumberDisplay';
-import './styles/App.css';
+// App.js
+const root = document.getElementById("root");
 
-function App() {
-    const [min, setMin] = useState(1);
-    const [max, setMax] = useState(750);
-    const [numbers, setNumbers] = useState([]);
-    const [generatedNumbers, setGeneratedNumbers] = useState(new Set());
+// Create elements
+const container = document.createElement("div");
+container.className = "container";
 
-    useEffect(() => {
-        const container = document.createElement('div');
-        container.className = 'container';
+const title = document.createElement("h1");
+title.textContent = "Random Number Generator";
 
-        container.innerHTML = `
-            <h1>Random Number Generator</h1>
-            <p>Generate unique random numbers within a range</p>
-            <div class="input-group">
-                <div>
-                    <label for="minValue">Min Value</label>
-                    <input type="number" id="minValue" value="1">
-                </div>
-                <div>
-                    <label for="maxValue">Max Value</label>
-                    <input type="number" id="maxValue" value="750">
-                </div>
-            </div>
-            <div class="button-group">
-                <button class="generate-btn">Generate Number</button>
-                <button class="reset-btn">Reset</button>
-            </div>
-            <div class="number-display"></div>
-            <div>
-                <h3>Generated Numbers:</h3>
-                <div class="generated-numbers"></div>
-            </div>
-        `;
+const button = document.createElement("button");
+button.textContent = "Generate Number";
 
-        document.getElementById('root').appendChild(container);
+// BIG NUMBER display
+const bigDisplay = document.createElement("div");
+bigDisplay.id = "big-number-display";
+bigDisplay.style.fontSize = "48px";
+bigDisplay.style.fontWeight = "bold";
+bigDisplay.style.margin = "20px 0";
+bigDisplay.style.height = "60px"; // Fixed height to avoid layout shift
 
-        const generateBtn = container.querySelector('.generate-btn');
-        const resetBtn = container.querySelector('.reset-btn');
-        const minInput = container.querySelector('#minValue');
-        const maxInput = container.querySelector('#maxValue');
-        const numberDisplay = container.querySelector('.number-display');
-        const generatedNumbersContainer = container.querySelector('.generated-numbers');
+// List container
+const listTitle = document.createElement("h2");
+listTitle.textContent = "Generated Numbers";
 
-        generateBtn.addEventListener('click', () => {
-            const min = parseInt(minInput.value);
-            const max = parseInt(maxInput.value);
+const list = document.createElement("ul");
+list.id = "number-list";
 
-            if (isNaN(min) || isNaN(max) || min >= max) {
-                alert('Please enter valid numbers. Maximum should be greater than minimum.');
-                return;
-            }
+// Append to container
+container.appendChild(title);
+container.appendChild(button);
+container.appendChild(bigDisplay);
+container.appendChild(listTitle);
+container.appendChild(list);
 
-            if (generatedNumbers.size >= (max - min + 1)) {
-                alert('All possible numbers in the range have been generated!');
-                return;
-            }
+// Add container to root
+root.appendChild(container);
 
-            let newNumber;
-            do {
-                newNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-            } while (generatedNumbers.has(newNumber));
+// Add event listener to button
+button.addEventListener("click", () => {
+  const number = Math.floor(Math.random() * 100); // Change max if needed
 
-            generatedNumbers.add(newNumber);
+  // Show it big first
+  bigDisplay.textContent = number;
 
-            // Display animation
-            numberDisplay.textContent = newNumber;
-            numberDisplay.classList.add('active');
-
-            setTimeout(() => {
-                numberDisplay.classList.remove('active');
-                // Add to the list after animation
-                const numberItem = document.createElement('span');
-                numberItem.className = 'number-item';
-                numberItem.textContent = newNumber;
-                generatedNumbersContainer.appendChild(numberItem);
-            }, 1500);
-        });
-
-        resetBtn.addEventListener('click', () => {
-            generatedNumbers.clear();
-            generatedNumbersContainer.innerHTML = '';
-            numberDisplay.textContent = '';
-            numberDisplay.classList.remove('active');
-        });
-    }, []);
-
-    return (
-        <div className="App">
-            <h1>Random Number Generator</h1>
-            <RangeSelector min={min} setMin={setMin} max={max} setMax={setMax} />
-            <NumberDisplay numbers={numbers} />
-        </div>
-    );
-}
-
-export default App;
+  // Then add to the list after a brief moment
+  setTimeout(() => {
+    const item = document.createElement("li");
+    item.textContent = number;
+    list.appendChild(item);
+  }, 1000); // 1 second delay
+});
