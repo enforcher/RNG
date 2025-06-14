@@ -1,7 +1,7 @@
 // App.js
 const root = document.getElementById("root");
 
-// Create container
+// Main Container
 const container = document.createElement("div");
 container.className = "container";
 
@@ -9,28 +9,25 @@ container.className = "container";
 const title = document.createElement("h1");
 title.textContent = "Random Number Generator";
 
-// Range Input
+// Range Controls
 const rangeWrapper = document.createElement("div");
 rangeWrapper.className = "range-wrapper";
 
 const minLabel = document.createElement("label");
-minLabel.textContent = "Min: ";
+minLabel.textContent = "Min:";
 const minInput = document.createElement("input");
 minInput.type = "number";
 minInput.value = "0";
 minInput.className = "range-input";
 
 const maxLabel = document.createElement("label");
-maxLabel.textContent = "Max: ";
+maxLabel.textContent = "Max:";
 const maxInput = document.createElement("input");
 maxInput.type = "number";
 maxInput.value = "100";
 maxInput.className = "range-input";
 
-rangeWrapper.appendChild(minLabel);
-rangeWrapper.appendChild(minInput);
-rangeWrapper.appendChild(maxLabel);
-rangeWrapper.appendChild(maxInput);
+rangeWrapper.append(minLabel, minInput, maxLabel, maxInput);
 
 // Generate Button
 const button = document.createElement("button");
@@ -38,35 +35,28 @@ button.textContent = "Generate Number";
 
 // Big Display
 const bigDisplay = document.createElement("div");
-bigDisplay.id = "big-number-display";
 bigDisplay.className = "big-pill";
 bigDisplay.textContent = "-";
 
-// Generated List Title
+// Subtitle
 const listTitle = document.createElement("h2");
 listTitle.textContent = "Generated Numbers";
 
-// List Container (horizontal layout)
-const list = document.createElement("div");
-list.id = "number-list";
-list.className = "pill-list";
+// Pill Container
+const pillContainer = document.createElement("div");
+pillContainer.className = "pill-list";
 
-// Assemble layout
-container.appendChild(title);
-container.appendChild(rangeWrapper);
-container.appendChild(button);
-container.appendChild(bigDisplay);
-container.appendChild(listTitle);
-container.appendChild(list);
+// Assembling DOM
+container.append(title, rangeWrapper, button, bigDisplay, listTitle, pillContainer);
 root.appendChild(container);
 
-// Event logic
+// Button Logic
 button.addEventListener("click", () => {
   const min = parseInt(minInput.value);
   const max = parseInt(maxInput.value);
 
   if (isNaN(min) || isNaN(max) || min >= max) {
-    alert("Please enter valid range (min < max)");
+    alert("Invalid range. Min should be less than Max.");
     return;
   }
 
@@ -75,11 +65,11 @@ button.addEventListener("click", () => {
   // Display big number
   bigDisplay.textContent = number;
 
-  // Create new blue pill
+  // Add small pill after short delay
   setTimeout(() => {
-    const pill = document.createElement("div");
-    pill.className = "small-pill";
-    pill.textContent = number;
-    list.insertBefore(pill, list.firstChild); // Add left to right
+    const smallPill = document.createElement("div");
+    smallPill.className = "small-pill";
+    smallPill.textContent = number;
+    pillContainer.insertBefore(smallPill, pillContainer.firstChild);
   }, 500);
 });
