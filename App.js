@@ -4,7 +4,7 @@ const root = document.getElementById("root");
 // Track generated numbers
 const generatedNumbers = new Set();
 
-// DARK MODE Toggle
+// Dark Mode Toggle
 const modeToggle = document.createElement("button");
 modeToggle.textContent = "🌙 Toggle Dark Mode";
 modeToggle.className = "mode-toggle";
@@ -42,26 +42,34 @@ const button = document.createElement("button");
 button.textContent = "Generate Number";
 button.className = "generate-btn";
 
-// Big Pill (Green Display)
+// Big Pill
 const bigDisplay = document.createElement("div");
 bigDisplay.className = "big-pill";
 bigDisplay.textContent = "-";
 
-// Clear Button
+// Clear History Button
 const clearButton = document.createElement("button");
 clearButton.textContent = "Clear History";
 clearButton.className = "clear-btn";
 
-// List Title
+// Pills Title
 const listTitle = document.createElement("h2");
 listTitle.textContent = "Generated Numbers";
 
-// Pills Container
+// Pills Container (Left to right layout)
 const pillContainer = document.createElement("div");
 pillContainer.className = "pill-list";
 
-// Assemble DOM
-container.append(title, rangeWrapper, button, bigDisplay, clearButton, listTitle, pillContainer);
+// Assemble layout
+container.append(
+  title,
+  rangeWrapper,
+  button,
+  bigDisplay,
+  clearButton,
+  listTitle,
+  pillContainer
+);
 root.append(modeToggle, container);
 
 // Generate Logic
@@ -87,27 +95,28 @@ button.addEventListener("click", () => {
 
   generatedNumbers.add(number);
 
-  // Update big display with animation
+  // Animate green pill
   bigDisplay.textContent = number;
-  bigDisplay.classList.remove("animate");
-  void bigDisplay.offsetWidth;
-  bigDisplay.classList.add("animate");
+  bigDisplay.classList.add("pulse");
+  setTimeout(() => {
+    bigDisplay.classList.remove("pulse");
+  }, 500);
 
-  // Add to pill list
+  // Add to the END of pill list (rightmost)
   const smallPill = document.createElement("div");
   smallPill.className = "small-pill";
   smallPill.textContent = number;
-  pillContainer.insertBefore(smallPill, pillContainer.firstChild);
+  pillContainer.appendChild(smallPill); // ← latest at end (rightmost)
 });
 
-// Clear logic
+// Clear Logic
 clearButton.addEventListener("click", () => {
   generatedNumbers.clear();
   pillContainer.innerHTML = "";
   bigDisplay.textContent = "-";
 });
 
-// Toggle dark mode
+// Dark Mode Toggle
 modeToggle.addEventListener("click", () => {
   document.body.classList.toggle("dark-mode");
 });
