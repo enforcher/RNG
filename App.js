@@ -75,10 +75,10 @@ button.addEventListener("click", () => {
 
   // Animate and show big number
   bigDisplay.textContent = number;
-  bigDisplay.classList.add("pulse");
-  setTimeout(() => {
-    bigDisplay.classList.remove("pulse");
-  }, 500);
+ bigDisplay.classList.add("jump");
+setTimeout(() => {
+  bigDisplay.classList.remove("jump");
+}, 600);
 
   const smallPill = document.createElement("div");
   smallPill.className = "small-pill";
