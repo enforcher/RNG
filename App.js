@@ -1,6 +1,11 @@
 // App.js
 const root = document.getElementById("root");
 
+// DARK MODE Toggle
+const modeToggle = document.createElement("button");
+modeToggle.textContent = "🌙 Toggle Dark Mode";
+modeToggle.className = "mode-toggle";
+
 // Main Container
 const container = document.createElement("div");
 container.className = "container";
@@ -9,7 +14,7 @@ container.className = "container";
 const title = document.createElement("h1");
 title.textContent = "Random Number Generator";
 
-// Range Controls
+// Range Inputs
 const rangeWrapper = document.createElement("div");
 rangeWrapper.className = "range-wrapper";
 
@@ -32,23 +37,24 @@ rangeWrapper.append(minLabel, minInput, maxLabel, maxInput);
 // Generate Button
 const button = document.createElement("button");
 button.textContent = "Generate Number";
+button.className = "generate-btn";
 
-// Big Display
+// Big Pill
 const bigDisplay = document.createElement("div");
 bigDisplay.className = "big-pill";
 bigDisplay.textContent = "-";
 
-// Subtitle
+// List Title
 const listTitle = document.createElement("h2");
 listTitle.textContent = "Generated Numbers";
 
-// Pill Container
+// Pills Container
 const pillContainer = document.createElement("div");
 pillContainer.className = "pill-list";
 
-// Assembling DOM
+// Assemble
 container.append(title, rangeWrapper, button, bigDisplay, listTitle, pillContainer);
-root.appendChild(container);
+root.append(modeToggle, container);
 
 // Button Logic
 button.addEventListener("click", () => {
@@ -56,20 +62,26 @@ button.addEventListener("click", () => {
   const max = parseInt(maxInput.value);
 
   if (isNaN(min) || isNaN(max) || min >= max) {
-    alert("Invalid range. Min should be less than Max.");
+    alert("Invalid range. Min must be less than Max.");
     return;
   }
 
   const number = Math.floor(Math.random() * (max - min + 1)) + min;
 
-  // Display big number
+  // Animate and update big pill
   bigDisplay.textContent = number;
+  bigDisplay.classList.remove("animate");
+  void bigDisplay.offsetWidth; // Reflow
+  bigDisplay.classList.add("animate");
 
-  // Add small pill after short delay
-  setTimeout(() => {
-    const smallPill = document.createElement("div");
-    smallPill.className = "small-pill";
-    smallPill.textContent = number;
-    pillContainer.insertBefore(smallPill, pillContainer.firstChild);
-  }, 500);
+  // Add to history
+  const smallPill = document.createElement("div");
+  smallPill.className = "small-pill";
+  smallPill.textContent = number;
+  pillContainer.insertBefore(smallPill, pillContainer.firstChild);
+});
+
+// Toggle dark mode
+modeToggle.addEventListener("click", () => {
+  document.body.classList.toggle("dark-mode");
 });
