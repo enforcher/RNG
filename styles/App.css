@@ -1,7 +1,6 @@
-/* styles/App.css */
 body {
   font-family: Arial, sans-serif;
-  background-color: #dff4ff; /* pastel blue */
+  background-color: #dff4ff;
   margin: 0;
   padding: 40px;
   transition: background-color 0.3s ease;
@@ -49,9 +48,9 @@ h1, h2 {
   background-color: #0056b3;
 }
 
-/* Green pill display */
+/* Green pill display (below button) */
 .big-pill {
-  margin: 2px auto 20px;
+  margin: 2px auto 10px;
   font-size: 40px;
   font-weight: bold;
   color: white;
@@ -87,6 +86,21 @@ h1, h2 {
   font-weight: bold;
 }
 
+/* Clear History Button */
+.clear-btn {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #e53935;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.clear-btn:hover {
+  background-color: #c62828;
+}
+
 /* Dark Mode */
 body.dark-mode {
   background-color: #1a1a1a;
@@ -111,6 +125,14 @@ body.dark-mode .big-pill {
 
 body.dark-mode .small-pill {
   background-color: #64b5f6;
+}
+
+body.dark-mode .clear-btn {
+  background-color: #ef5350;
+}
+
+body.dark-mode .clear-btn:hover {
+  background-color: #d32f2f;
 }
 
 /* Toggle button */
